@@ -1,0 +1,155 @@
+Build an EU AI Act Compliance Checker web app for my portfolio targeting AI engineering jobs in Germany.
+
+================================================================================
+PROJECT OVERVIEW
+================================================================================
+
+A tool where companies input information about their AI system and receive:
+1. Risk classification based on EU AI Act categories (Unacceptable, High-Risk, Limited, Minimal)
+2. Legal obligations specific to their category
+3. Compliance checklist with EU AI Act article references
+4. Downloadable PDF report
+
+This is a portfolio project that recruiters will test, so it MUST work flawlessly, look professional, and demonstrate real value.
+
+================================================================================
+TECH STACK
+================================================================================
+
+Frontend:
+- React 18+
+- Tailwind CSS
+- React Router for navigation
+- Axios for API calls
+
+Backend:
+- Python Flask
+- Flask-CORS
+- OpenAI API (GPT-4) for generating explanations
+- ReportLab for PDF generation
+
+Deployment: Replit (must work on Replit's infrastructure)
+
+================================================================================
+DESIGN SYSTEM
+================================================================================
+
+Color Palette:
+- Primary background: #0f172a (dark navy)
+- Secondary background: #1e293b (slate)
+- Card background: #334155
+- Primary accent: #3b82f6 (blue)
+- Text primary: #f8fafc (white)
+- Text secondary: #94a3b8 (gray)
+- Risk colors:
+  - Unacceptable: #dc2626 (red)
+  - High-Risk: #f97316 (orange)
+  - Limited: #eab308 (yellow)
+  - Minimal: #22c55e (green)
+
+Typography:
+- Headings: Inter or system-ui, bold
+- Body: Inter or system-ui, regular
+- Monospace for code/technical: JetBrains Mono or monospace
+
+Design Principles:
+- Modern SaaS aesthetic, NOT generic AI look
+- Clean, generous whitespace
+- Professional feel like a legal/compliance enterprise tool
+- Subtle shadows and rounded corners (border-radius: 12px for cards)
+- Smooth transitions (300ms ease)
+- Mobile responsive (mobile-first approach)
+
+================================================================================
+COMPLETE USER FLOW
+================================================================================
+
+--------------------------------------------------------------------------------
+SCREEN 1: LANDING PAGE (route: /)
+--------------------------------------------------------------------------------
+
+Navigation Bar:
+- Logo/Title: "AI Act Checker" (left)
+- Links: "How it Works" | "About EU AI Act" | "Start Assessment" button (right)
+
+Hero Section:
+- Main heading: "Is Your AI System Compliant with the EU AI Act?"
+- Subheading: "Get instant risk classification and compliance requirements for your AI system. Free assessment in under 2 minutes."
+- Primary CTA button: "Start Free Assessment →"
+- Secondary link: "Try a demo first"
+
+Value Propositions (3 cards in a row):
+Card 1:
+- Icon: Shield with checkmark
+- Title: "Instant Classification"
+- Description: "Know your AI system's risk category immediately based on EU AI Act criteria"
+
+Card 2:
+- Icon: Document/List
+- Title: "Clear Obligations"  
+- Description: "Understand exactly what compliance measures are required for your category"
+
+Card 3:
+- Icon: Download
+- Title: "Exportable Report"
+- Description: "Download a professional PDF report for your records and stakeholders"
+
+Demo Section:
+- Heading: "See It In Action"
+- Subheading: "Try these pre-configured demos to see how the assessment works"
+- Three demo cards:
+  1. "HR Screening Tool" - badge: "HIGH-RISK" - button: "Run Demo"
+  2. "Customer Chatbot" - badge: "LIMITED RISK" - button: "Run Demo"  
+  3. "Email Spam Filter" - badge: "MINIMAL RISK" - button: "Run Demo"
+
+How It Works Section:
+- Step 1: "Describe Your AI System" - "Tell us what your AI does and how it's used"
+- Step 2: "Answer Key Questions" - "Respond to questions about functionality and deployment"
+- Step 3: "Get Your Results" - "Receive instant classification with compliance checklist"
+- Step 4: "Download Report" - "Export a PDF report for your team"
+
+Footer:
+- Text: "Based on EU Regulation 2024/1689 (EU Artificial Intelligence Act)"
+- Links: "Privacy Policy" | "Disclaimer" | "GitHub"
+- Disclaimer: "This tool provides informational guidance only and does not constitute legal advice."
+
+--------------------------------------------------------------------------------
+SCREEN 2: QUESTIONNAIRE (route: /assessment)
+--------------------------------------------------------------------------------
+
+Layout:
+- Progress bar at top showing current step (Step X of 4)
+- Card containing the form
+- Back and Next buttons at bottom
+
+**Step 1 of 4: Basic Information**
+
+Heading: "Tell us about your AI system"
+
+Fields:
+- AI System Name (text input)
+  - Placeholder: "e.g., SmartRecruit Pro"
+  - Required: yes
+  - Validation: minimum 2 characters
+
+- Organization Name (text input)
+  - Placeholder: "e.g., Acme Corporation"
+  - Required: no
+
+- System Description (textarea)
+  - Placeholder: "Describe what your AI system does in 1-2 sentences. Example: An AI tool that screens job applications and ranks candidates based on resume analysis."
+  - Required: yes
+  - Validation: minimum 20 characters
+  - Character count shown
+
+Buttons: [Next →]
+
+**Step 2 of 4: Primary Use Case**
+
+Heading: "What does your AI system do?"
+
+Field:
+- Primary Function (searchable dropdown with grouped options)
+  - Required: yes
+
+Dropdown options grouped:
