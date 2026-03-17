@@ -1,0 +1,16 @@
+packages:
+  "framer-motion": "For page transitions and polished step animations in the wizard"
+  "zustand": "For storing assessment state and results across different routes"
+  "clsx": "Utility for conditionally joining classNames"
+  "tailwind-merge": "Utility for merging tailwind classes safely"
+  "react-hook-form": "For handling the complex multi-step assessment form"
+  "@hookform/resolvers": "Zod integration for react-hook-form validation"
+
+images:
+  - path: "artifacts/eu-ai-act-checker/public/images/hero-bg.png"
+    description: "Dark, professional, abstract geometric background with deep navy and subtle glowing electric blue lines, representing AI, legal compliance, and enterprise software. Very premium, minimal, and out of focus."
+    aspect_ratio: "16:9"
+
+notes:
+  - Using generated Orval hooks from @workspace/api-client-react
+  - Assessment state is maintained in client via Zustand since no DB is required for the assessment flow
