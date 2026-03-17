@@ -1,0 +1,294 @@
+openapi: 3.1.0
+info:
+  title: Api
+  version: 0.1.0
+  description: API specification
+servers:
+  - url: /api
+    description: Base API path
+tags:
+  - name: health
+    description: Health operations
+  - name: assessment
+    description: AI Act compliance assessment operations
+paths:
+  /healthz:
+    get:
+      operationId: healthCheck
+      tags: [health]
+      summary: Health check
+      description: Returns server health status
+      responses:
+        "200":
+          description: Healthy
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HealthStatus"
+  /assessment/classify:
+    post:
+      operationId: classifyAiSystem
+      tags: [assessment]
+      summary: Classify an AI system's risk level
+      description: Accepts questionnaire answers and returns risk classification with obligations
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AssessmentRequest"
+      responses:
+        "200":
+          description: Classification result
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AssessmentResult"
+  /assessment/explain:
+    post:
+      operationId: explainClassification
+      tags: [assessment]
+      summary: Get AI-generated explanation for classification
+      description: Uses AI to generate a detailed explanation of the classification result
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ExplainRequest"
+      responses:
+        "200":
+          description: AI explanation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ExplainResponse"
+  /assessment/pdf:
+    post:
+      operationId: generatePdfReport
+      tags: [assessment]
+      summary: Generate a PDF compliance report
+      description: Generates a downloadable PDF report with classification and compliance checklist
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PdfReportRequest"
+      responses:
+        "200":
+          description: PDF file
+          content:
+            application/pdf:
+              schema:
+                type: string
+                format: binary
+  /assessment/demo/{demoType}:
+    get:
+      operationId: getDemoAssessment
+      tags: [assessment]
+      summary: Get a pre-configured demo assessment
+      description: Returns pre-filled assessment data for demo purposes
+      parameters:
+        - name: demoType
+          in: path
+          required: true
+          schema:
+            type: string
+            enum: [hr-screening, customer-chatbot, spam-filter]
+      responses:
+        "200":
+          description: Demo assessment data
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AssessmentResult"
+components:
+  schemas:
+    HealthStatus:
+      type: object
+      properties:
+        status:
+          type: string
+      required:
+        - status
+    AssessmentRequest:
+      type: object
+      required:
+        - systemName
+        - systemDescription
+        - primaryFunction
+        - sector
+        - dataTypes
+        - autonomyLevel
+        - targetUsers
+        - decisionImpact
+      properties:
+        systemName:
+          type: string
+        organizationName:
+          type: string
+        systemDescription:
+          type: string
+        primaryFunction:
+          type: string
+        sector:
+          type: string
+        dataTypes:
+          type: array
+          items:
+            type: string
+        autonomyLevel:
+          type: string
+          enum: [fully-autonomous, semi-autonomous, human-in-the-loop, advisory-only]
+        targetUsers:
+          type: string
+          enum: [general-public, specific-professionals, internal-employees, government-authorities]
+        decisionImpact:
+          type: string
+          enum: [critical-life-safety, significant-rights, moderate-economic, limited-convenience]
+        additionalContext:
+          type: string
+    AssessmentResult:
+      type: object
+      required:
+        - systemName
+        - systemDescription
+        - riskLevel
+        - riskScore
+        - classification
+        - obligations
+        - checklist
+        - keyArticles
+        - summary
+      properties:
+        systemName:
+          type: string
+        organizationName:
+          type: string
+        systemDescription:
+          type: string
+        riskLevel:
+          type: string
+          enum: [unacceptable, high-risk, limited, minimal]
+        riskScore:
+          type: number
+        classification:
+          $ref: "#/components/schemas/ClassificationDetail"
+        obligations:
+          type: array
+          items:
+            $ref: "#/components/schemas/Obligation"
+        checklist:
+          type: array
+          items:
+            $ref: "#/components/schemas/ChecklistItem"
+        keyArticles:
+          type: array
+          items:
+            $ref: "#/components/schemas/ArticleReference"
+        summary:
+          type: string
+    ClassificationDetail:
+      type: object
+      required:
+        - title
+        - description
+        - reasoning
+      properties:
+        title:
+          type: string
+        description:
+          type: string
+        reasoning:
+          type: string
+    Obligation:
+      type: object
+      required:
+        - id
+        - title
+        - description
+        - priority
+        - articleRef
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        description:
+          type: string
+        priority:
+          type: string
+          enum: [critical, high, medium, low]
+        articleRef:
+          type: string
+    ChecklistItem:
+      type: object
+      required:
+        - id
+        - category
+        - requirement
+        - description
+        - articleRef
+        - completed
+      properties:
+        id:
+          type: string
+        category:
+          type: string
+        requirement:
+          type: string
+        description:
+          type: string
+        articleRef:
+          type: string
+        completed:
+          type: boolean
+    ArticleReference:
+      type: object
+      required:
+        - article
+        - title
+        - relevance
+      properties:
+        article:
+          type: string
+        title:
+          type: string
+        relevance:
+          type: string
+    ExplainRequest:
+      type: object
+      required:
+        - systemName
+        - systemDescription
+        - riskLevel
+        - primaryFunction
+        - sector
+      properties:
+        systemName:
+          type: string
+        systemDescription:
+          type: string
+        riskLevel:
+          type: string
+        primaryFunction:
+          type: string
+        sector:
+          type: string
+    ExplainResponse:
+      type: object
+      required:
+        - explanation
+      properties:
+        explanation:
+          type: string
+    PdfReportRequest:
+      type: object
+      required:
+        - result
+      properties:
+        result:
+          $ref: "#/components/schemas/AssessmentResult"
+        explanation:
+          type: string
